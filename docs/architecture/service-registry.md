@@ -1,0 +1,13 @@
+| Service            | Port | Database      | Status  |
+| ------------------ | ---: | ------------- | ------- |
+| config-service     | 8888 | -             | Planned |
+| discovery-service  | 8761 | -             | Planned |
+| gateway-service    | 8080 | -             | Planned |
+| identity-service   | 8081 | identity_db   | Planned |
+| user-service       | 8082 | user_db       | Planned |
+| talent-service     | 8083 | talent_db     | Planned |
+| writer-service     | 8084 | writer_db     | Planned |
+| publishing-service | 8085 | publishing_db | Planned |
+| payment-service    | 8086 | payment_db    | Planned |
+| reporting-service  | 8087 | reporting_db  | Planned |
+| music-service      | 8088 | music_db      | Planned |
