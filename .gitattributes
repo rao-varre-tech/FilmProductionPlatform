@@ -1,0 +1,17 @@
+* text=auto
+
+*.java text
+*.xml text
+*.yml text
+*.yaml text
+*.properties text
+*.json text
+*.ts text
+*.html text
+*.scss text
+*.css text
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.sh text eol=lf

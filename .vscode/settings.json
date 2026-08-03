@@ -1,3 +1,37 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.import.maven.enabled": true,
+    "java.maven.downloadSources": true,
+    "java.referencesCodeLens.enabled": true,
+    "java.test.editor.enableShortcuts": true,
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.format.settings.url": "",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.exclude": {
+        "**/target": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true
+    },
+    "search.exclude": {
+        "**/target": true
+    },
+    "maven.executable.preferMavenWrapper": false,
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-26",
+            "path": "C:\\Program Files\\Java\\jdk-26.0.2"
+        },
+        {
+            "name": "JavaSE-21",
+            "path": "C:\\Program Files\\Java\\jdk-21.0.12",
+            "default": true
+        }
+    ]
 }
