@@ -7,3 +7,42 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8888
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/film_platform_identity
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy  
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    org.springframework.security: TRACE
+
+jwt:
+  secret: w3v8Gq2R8dF8mJvNQ2l8v0d7K1x9Yp4aH6uBz3nL5sQeW1rT8yUoP5mN2kJ7hV9c
+  access-token-expiration: 900000
+  refresh-token-expiration: 2592000000
+  issuer: film-production-platform
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,mappings

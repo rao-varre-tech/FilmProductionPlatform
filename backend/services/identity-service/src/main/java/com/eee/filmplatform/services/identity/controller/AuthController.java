@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eee.filmplatform.services.identity.common.response.ApiResponse;
 import com.eee.filmplatform.services.identity.dto.request.LoginRequest;
+import com.eee.filmplatform.services.identity.dto.request.RefreshTokenRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.response.LoginResponse;
+import com.eee.filmplatform.services.identity.dto.response.RefreshTokenResponse;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.service.AuthService;
 
@@ -41,5 +43,16 @@ public class AuthController {
         return ApiResponse.success(
                 authService.login(request),
                 "Login successful");
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<RefreshTokenResponse> refresh(
+            @Valid @RequestBody RefreshTokenRequest request) {
+
+        System.out.println("=== REFRESH ENDPOINT HIT ===");
+
+        return ApiResponse.success(
+                authService.refresh(request),
+                "Access token refreshed successfully");
     }
 }

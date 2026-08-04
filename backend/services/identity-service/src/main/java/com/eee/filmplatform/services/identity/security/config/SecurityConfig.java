@@ -26,7 +26,8 @@ public class SecurityConfig {
 
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
-
+                                .httpBasic(AbstractHttpConfigurer::disable)
+                                .formLogin(AbstractHttpConfigurer::disable)
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
