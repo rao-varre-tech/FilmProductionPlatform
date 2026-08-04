@@ -21,3 +21,8 @@ Content-Type: application/json
     "username": "john123",
     "password": "Password@123"
 }
+
+### User
+
+GET http://localhost:8081/api/v1/users/me
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODc3NDc5LCJleHAiOjE3ODU4NzgzNzl9.Z6r39isJXrF4uQnW2LYED6bDKhGc0qgAFgqMAmqsQs3B2nNL_P2kKM-gIxHQC77o

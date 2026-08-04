@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.eee.filmplatform.services.identity.security.filter.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
         @Bean
         SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -32,7 +37,10 @@ public class SecurityConfig {
                                                 .permitAll()
 
                                                 .anyRequest()
-                                                .authenticated());
+                                                .authenticated())
+                                                .addFilterBefore(
+                                                jwtAuthenticationFilter,
+                                        UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }

@@ -96,6 +96,8 @@ public class JwtServiceImpl implements JwtService {
 
     private SecretKey getSigningKey() {
 
+        System.out.println("Secret = " + jwtProperties.getSecret());
+
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
 
         return Keys.hmacShaKeyFor(keyBytes);
