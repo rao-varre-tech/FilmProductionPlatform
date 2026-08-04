@@ -1,12 +1,16 @@
-package com.eee.filmplatform.services.identity.config;
+package com.eee.filmplatform.services.identity.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -14,18 +18,19 @@ public class SecurityConfig {
         @Bean
         SecurityFilterChain securityFilterChain(HttpSecurity http)
                         throws Exception {
-                System.out.println(">>> CUSTOM SECURITY CONFIG LOADED <<<");
 
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
-                                .httpBasic(AbstractHttpConfigurer::disable)
-                                .formLogin(AbstractHttpConfigurer::disable)
-                                .authorizeHttpRequests(auth -> auth
 
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                                .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(
                                                                 "/actuator/**",
                                                                 "/api/v1/auth/**")
                                                 .permitAll()
+
                                                 .anyRequest()
                                                 .authenticated());
 

@@ -7,6 +7,9 @@ import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.service.AuthService;
 import com.eee.filmplatform.services.identity.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
+
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -25,7 +30,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(LoginRequest request) {
 
-        throw new UnsupportedOperationException("Not implemented yet");
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    request.username(),
+                    request.password()
+            )
+        );
+
+        return new LoginResponse("Login successful");
 
     }
 }

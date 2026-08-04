@@ -2,11 +2,15 @@ package com.eee.filmplatform.services.identity.dto.response;
 
 public record LoginResponse(
 
-        String accessToken,
+                // String accessToken,
 
-        String refreshToken,
+                // String refreshToken,
 
-        String tokenType
+                // String tokenType,
+
+                // long expiresIn
+
+                String message
 
 ) {
 }
