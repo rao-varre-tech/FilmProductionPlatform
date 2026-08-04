@@ -24,5 +24,9 @@ CREATE TABLE users
 
     created_at TIMESTAMP NOT NULL,
 
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100)
 );

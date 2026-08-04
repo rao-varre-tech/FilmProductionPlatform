@@ -10,6 +10,10 @@ CREATE TABLE user_roles
 
     updated_at TIMESTAMP NOT NULL,
 
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100),
+
     CONSTRAINT fk_user_roles_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
@@ -34,6 +38,10 @@ CREATE TABLE role_permissions
     created_at TIMESTAMP NOT NULL,
 
     updated_at TIMESTAMP NOT NULL,
+
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100),
 
     CONSTRAINT fk_role_permissions_role
         FOREIGN KEY (role_id)
@@ -63,6 +71,10 @@ CREATE TABLE refresh_tokens
     created_at TIMESTAMP NOT NULL,
 
     updated_at TIMESTAMP NOT NULL,
+
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100),
 
     CONSTRAINT fk_refresh_tokens_user
         FOREIGN KEY (user_id)

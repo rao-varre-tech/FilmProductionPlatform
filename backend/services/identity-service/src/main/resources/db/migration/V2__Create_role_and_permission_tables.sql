@@ -10,7 +10,11 @@ CREATE TABLE roles
 
     created_at TIMESTAMP NOT NULL,
 
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100)
 );
 
 CREATE TABLE permissions
@@ -23,5 +27,9 @@ CREATE TABLE permissions
 
     created_at TIMESTAMP NOT NULL,
 
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+
+    created_by VARCHAR(100),
+
+    updated_by VARCHAR(100)
 );
