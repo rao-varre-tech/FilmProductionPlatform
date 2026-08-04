@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.eee.filmplatform.services.identity.dto.request.LoginRequest;
+import com.eee.filmplatform.services.identity.dto.request.LogoutRequest;
 import com.eee.filmplatform.services.identity.dto.request.RefreshTokenRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.response.LoginResponse;
@@ -28,75 +29,80 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserService userService;
+        private final UserService userService;
 
-    private final AuthenticationManager authenticationManager;
+        private final AuthenticationManager authenticationManager;
 
-    private final JwtService jwtService;
+        private final JwtService jwtService;
 
-    private final JwtProperties jwtProperties;
+        private final JwtProperties jwtProperties;
 
-    private final RefreshTokenService refreshTokenService;
+        private final RefreshTokenService refreshTokenService;
 
-    @Override
-    public UserResponse register(RegisterRequest request) {
+        @Override
+        public UserResponse register(RegisterRequest request) {
 
-        return userService.register(request);
+                return userService.register(request);
 
-    }
-
-    @Override
-    public LoginResponse login(LoginRequest request) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()));
-
-        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-
-        String accessToken = jwtService.generateAccessToken(user);
-
-        String refreshToken = jwtService.generateRefreshToken(user);
-
-        refreshTokenService.create(
-                user.getUser(),
-                refreshToken);
-
-        return new LoginResponse(
-                accessToken,
-                refreshToken,
-                "Bearer",
-                jwtProperties.getAccessTokenExpiration());
-
-    }
-
-    @Override
-    public RefreshTokenResponse refresh(RefreshTokenRequest request) {
-
-        RefreshToken refreshToken =
-                refreshTokenService.verify(request.refreshToken());
-
-        if (refreshToken.isRevoked()) {
-            throw new IllegalArgumentException("Refresh token has been revoked");
         }
 
-        if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
-            throw new IllegalArgumentException("Refresh token has expired");
+        @Override
+        public LoginResponse login(LoginRequest request) {
+
+                Authentication authentication = authenticationManager.authenticate(
+                                new UsernamePasswordAuthenticationToken(
+                                                request.username(),
+                                                request.password()));
+
+                CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+                String accessToken = jwtService.generateAccessToken(user);
+
+                String refreshToken = jwtService.generateRefreshToken(user);
+
+                refreshTokenService.create(
+                                user.getUser(),
+                                refreshToken);
+
+                return new LoginResponse(
+                                accessToken,
+                                refreshToken,
+                                "Bearer",
+                                jwtProperties.getAccessTokenExpiration());
+
         }
 
-        User user = refreshToken.getUser();
+        @Override
+        public RefreshTokenResponse refresh(RefreshTokenRequest request) {
 
-        CustomUserDetails userDetails =
-                new CustomUserDetails(user);
+                RefreshToken refreshToken = refreshTokenService.verify(request.refreshToken());
 
-        String accessToken =
-                jwtService.generateAccessToken(userDetails);
+                if (refreshToken.isRevoked()) {
+                        throw new IllegalArgumentException("Refresh token has been revoked");
+                }
 
-        return new RefreshTokenResponse(
-                accessToken,
-                refreshToken.getToken(),
-                "Bearer",
-                jwtProperties.getAccessTokenExpiration());
-    }
+                if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
+                        throw new IllegalArgumentException("Refresh token has expired");
+                }
+
+                User user = refreshToken.getUser();
+
+                CustomUserDetails userDetails = new CustomUserDetails(user);
+
+                String accessToken = jwtService.generateAccessToken(userDetails);
+
+                return new RefreshTokenResponse(
+                                accessToken,
+                                refreshToken.getToken(),
+                                "Bearer",
+                                jwtProperties.getAccessTokenExpiration());
+        }
+
+        @Override
+        public void logout(LogoutRequest request) {
+
+                refreshTokenService.revoke(
+                                request.refreshToken());
+
+        }
 }

@@ -34,5 +34,14 @@ POST http://localhost:8081/api/v1/auth/refresh
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODg0MjcxLCJleHAiOjE3ODg0NzYyNzF9.MxFulxkul-G6Xu6_e61tFtIQHoM2Unll5MKHh-d_A4AVSL-2UBUlatO7jJTy3ZG8"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODg2ODQ1LCJleHAiOjE3ODg0Nzg4NDV9.0_0zV31J1se6rjz2_1aC0ZMLNHdloofugB1GAOO4REFTJ01zWCaTRXhhQ_ia4uha"
+}
+
+### Logout
+
+POST http://localhost:8081/api/v1/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODg2ODQ1LCJleHAiOjE3ODg0Nzg4NDV9.0_0zV31J1se6rjz2_1aC0ZMLNHdloofugB1GAOO4REFTJ01zWCaTRXhhQ_ia4uha"
 }

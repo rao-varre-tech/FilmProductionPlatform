@@ -1,6 +1,7 @@
 package com.eee.filmplatform.services.identity.service;
 
 import com.eee.filmplatform.services.identity.dto.request.LoginRequest;
+import com.eee.filmplatform.services.identity.dto.request.LogoutRequest;
 import com.eee.filmplatform.services.identity.dto.request.RefreshTokenRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.response.LoginResponse;
@@ -14,5 +15,7 @@ public interface AuthService {
     LoginResponse login(LoginRequest request);
 
     RefreshTokenResponse refresh(RefreshTokenRequest request);
+
+    void logout(LogoutRequest request);
 
 }

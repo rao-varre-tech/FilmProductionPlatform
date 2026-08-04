@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eee.filmplatform.services.identity.common.response.ApiResponse;
 import com.eee.filmplatform.services.identity.dto.request.LoginRequest;
+import com.eee.filmplatform.services.identity.dto.request.LogoutRequest;
 import com.eee.filmplatform.services.identity.dto.request.RefreshTokenRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.response.LoginResponse;
@@ -24,35 +25,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+        private final AuthService authService;
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> register(
-            @Valid @RequestBody RegisterRequest request) {
+        @PostMapping("/register")
+        @ResponseStatus(HttpStatus.CREATED)
+        public ApiResponse<UserResponse> register(
+                        @Valid @RequestBody RegisterRequest request) {
 
-        return ApiResponse.success(
-                authService.register(request),
-                "User registered successfully");
-    }
+                return ApiResponse.success(
+                                authService.register(request),
+                                "User registered successfully");
+        }
 
-    @PostMapping("/login")
-    public ApiResponse<LoginResponse> login(
-            @Valid @RequestBody LoginRequest request) {
+        @PostMapping("/login")
+        public ApiResponse<LoginResponse> login(
+                        @Valid @RequestBody LoginRequest request) {
 
-        return ApiResponse.success(
-                authService.login(request),
-                "Login successful");
-    }
+                return ApiResponse.success(
+                                authService.login(request),
+                                "Login successful");
+        }
 
-    @PostMapping("/refresh")
-    public ApiResponse<RefreshTokenResponse> refresh(
-            @Valid @RequestBody RefreshTokenRequest request) {
+        @PostMapping("/refresh")
+        public ApiResponse<RefreshTokenResponse> refresh(
+                        @Valid @RequestBody RefreshTokenRequest request) {
 
-        System.out.println("=== REFRESH ENDPOINT HIT ===");
+                System.out.println("=== REFRESH ENDPOINT HIT ===");
 
-        return ApiResponse.success(
-                authService.refresh(request),
-                "Access token refreshed successfully");
-    }
+                return ApiResponse.success(
+                                authService.refresh(request),
+                                "Access token refreshed successfully");
+        }
+
+        @PostMapping("/logout")
+        public ApiResponse<Void> logout(
+                        @Valid @RequestBody LogoutRequest request) {
+
+                authService.logout(request);
+
+                return ApiResponse.success(
+                                null,
+                                "Logout successful");
+        }
 }
