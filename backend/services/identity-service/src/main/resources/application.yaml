@@ -30,6 +30,12 @@ spring:
     level:
       org.springframework.security: TRACE
 
+  jwt:
+    secret: change-this-to-a-long-base64-secret
+    access-token-expiration: 900000
+    refresh-token-expiration: 2592000000
+    issuer: film-production-platform
+
 eureka:
   client:
     service-url:
