@@ -8,7 +8,6 @@ import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.User;
 import com.eee.filmplatform.services.identity.enums.UserStatus;
 import com.eee.filmplatform.services.identity.mapper.UserMapper;
-import com.eee.filmplatform.services.identity.repository.RoleRepository;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
 import com.eee.filmplatform.services.identity.service.EmailVerificationService;
 import com.eee.filmplatform.services.identity.service.UserRoleService;

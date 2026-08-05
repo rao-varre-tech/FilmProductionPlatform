@@ -1,7 +1,7 @@
 ### Test User Endpoint
 
 GET http://localhost:8081/api/v1/test/user
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTMzNjU2LCJleHAiOjE3ODU5MzQ1NTZ9.rlmtDaqJWgf8Fhj7uMQCav_ziD1-SYEs2S47cCUzjBKcizRBKMKQcIWkomTNe5vC
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTUxODQ0LCJleHAiOjE3ODU5NTI3NDR9.vz9FxFNhaujbrWAh_ItldIczFz7N5KhpuQbque5I0pUIEAdSJM_pTo5PpDDZ1zQY
 
 
 ### Test Admin Endpoint
@@ -13,3 +13,8 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsb
 ### Test User-Read Endpoint
 GET http://localhost:8081/api/v1/test/user-read
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTMzNjU2LCJleHAiOjE3ODU5MzQ1NTZ9.rlmtDaqJWgf8Fhj7uMQCav_ziD1-SYEs2S47cCUzjBKcizRBKMKQcIWkomTNe5vC
+
+
+### Test Email Endpoint
+POST http://localhost:8081/api/v1/test/test-email
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTUxODQ0LCJleHAiOjE3ODU5NTI3NDR9.vz9FxFNhaujbrWAh_ItldIczFz7N5KhpuQbque5I0pUIEAdSJM_pTo5PpDDZ1zQY

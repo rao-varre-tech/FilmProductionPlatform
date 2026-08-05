@@ -4,11 +4,11 @@ POST http://localhost:8081/api/v1/auth/register
 Content-Type: application/json
 
 {
-  "email": "babi@example.com",
-  "username": "babi123",
+  "email": "vdnmrao1992@gmail.com",
+  "username": "raovarre",
   "password": "Password@123",
-  "firstName": "Babi",
-  "lastName": "Meru"
+  "firstName": "Rao",
+  "lastName": "Varre"
 }
 
 ### Email Verification
@@ -22,14 +22,14 @@ POST http://localhost:8081/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "username": "babi123",
-    "password": "Babi@123"
+    "username": "raovarre",
+    "password": "Password@123"
 }
 
 ### User
 
 GET http://localhost:8081/api/v1/users/me
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODU5NDc1NzN9.IsyPE6ZuaDFEbHc0P9ZVnYpjz2PNHds9jD6Ll0w3JxcFkZcDsKlM-T-r9_9mxXB4
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1MzcxNSwiZXhwIjoxNzg1OTU0NjE1fQ.yViQLEtLQJEFunEwFrEpL2G04Hxxl5FvkYW6MUUUX-GfDgVJeONEsXa--ioRSOnz
 
 
 ### RefreshToken
@@ -38,7 +38,7 @@ POST http://localhost:8081/api/v1/auth/refresh
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODg1Mzg2NzN9.HFKfFmDO-kHCHM5FStW2XZKDv3Vn9d5zw_OR_HqGujJnQMjbk89ZR1YT74LYd0XO"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1MzcxNSwiZXhwIjoxNzg4NTQ1NzE1fQ.JAvuyOgkgl0gycRVvLCQ6HOZtUb1XxB5bj3-gcRYSe0HsiVCEUDm8j0dEln2f8gD"
 }
 
 ### Logout
@@ -47,7 +47,7 @@ POST http://localhost:8081/api/v1/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODg1Mzg2NzN9.HFKfFmDO-kHCHM5FStW2XZKDv3Vn9d5zw_OR_HqGujJnQMjbk89ZR1YT74LYd0XO"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1NTMxOCwiZXhwIjoxNzg4NTQ3MzE4fQ.0KVND3cLG5iFeGtxK8D84EUbClEtuy3mz-syu4wm_TmFCMj6m0NvzO1M1rwtdSor"
 }
 
 
@@ -57,7 +57,7 @@ POST http://localhost:8081/api/v1/auth/forgot-password
 Content-Type: application/json
 
 {
-    "email": "babi@example.com"
+    "email": "vdnmrao1992@gmail.com"
 }
 
 
@@ -67,6 +67,6 @@ POST http://localhost:8081/api/v1/auth/reset-password
 Content-Type: application/json
 
 {
-  "token": "d8b2924d-90a8-43de-87ac-2ee4bdcc5843",
-  "newPassword": "Babi@123"
+  "token": "c770288a-abcd-49e5-ba94-092ad90766c7",
+  "newPassword": "password@123"
 }
