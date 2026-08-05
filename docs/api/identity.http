@@ -71,7 +71,7 @@ POST http://localhost:8081/api/v1/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2NDE4MSwiZXhwIjoxNzg4NTU2MTgxfQ.gSOEFC69Gtff0EWgN-P0iZe349gwqS8SDMlrPdR4xqyxOXQPfl1bK-EUkh4k_BVd"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2ODY1MywiZXhwIjoxNzg4NTYwNjUzfQ.hfHhT3H76opmeNExxqimxPp6TSArgEBKgrld63NftT67GsVJ1xPB0KxGe1CM9a_e"
 }
 
 

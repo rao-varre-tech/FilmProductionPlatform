@@ -1,11 +1,15 @@
 package com.eee.filmplatform.services.identity.service.impl;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eee.filmplatform.services.identity.common.exception.ResourceNotFoundException;
+import com.eee.filmplatform.services.identity.config.SecurityProperties;
 import com.eee.filmplatform.services.identity.dto.request.ChangePasswordRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.request.UpdateUserRequest;
@@ -38,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private final EmailVerificationService emailVerificationService;
 
     private final RefreshTokenService refreshTokenService;
+
+    private final SecurityProperties securityProperties;
 
     @Override
     @Transactional
@@ -105,6 +111,52 @@ public class UserServiceImpl implements UserService {
                 passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
         refreshTokenService.revokeAll(user);
+    }
+
+    @Override
+    @Transactional
+    public void loginSucceeded(User user) {
+
+        user.setFailedLoginAttempts(0);
+        user.setAccountLockedUntil(null);
+        user.setAccountNonLocked(true);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void unlockAccount(User user) {
+
+        user.setAccountNonLocked(true);
+        user.setAccountLockedUntil(null);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void loginFailed(String usernameOrEmail) {
+
+        userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+                .ifPresent(user -> {
+
+                    int attempts = user.getFailedLoginAttempts() + 1;
+
+                    user.setFailedLoginAttempts(attempts);
+
+                    if (attempts >= securityProperties.getMaxFailedAttempts()) {
+
+                        user.setAccountNonLocked(false);
+
+                        user.setAccountLockedUntil(
+                                Instant.now().plus(
+                                        securityProperties.getLockDurationMinutes(),
+                                        ChronoUnit.MINUTES));
+                    }
+
+                    userRepository.save(user);
+                });
     }
 
     private void validateRegistration(RegisterRequest request) {

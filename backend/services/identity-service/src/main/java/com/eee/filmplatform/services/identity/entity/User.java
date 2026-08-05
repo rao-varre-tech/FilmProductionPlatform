@@ -53,6 +53,11 @@ public class User extends BaseEntity {
 
     private Instant lastLoginAt;
 
+    @Column(nullable = false)
+    private int failedLoginAttempts = 0;
+
+    private Instant accountLockedUntil;
+
     @OneToMany(
         mappedBy = "user",
         fetch = FetchType.LAZY,

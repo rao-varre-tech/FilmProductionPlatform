@@ -3,10 +3,14 @@ package com.eee.filmplatform.services.identity.service.impl;
 import java.time.Instant;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.eee.filmplatform.services.identity.common.exception.AccountLockedException;
+import com.eee.filmplatform.services.identity.common.exception.EmailNotVerifiedException;
+import com.eee.filmplatform.services.identity.common.exception.InvalidCredentialsException;
 import com.eee.filmplatform.services.identity.dto.request.ForgotPasswordRequest;
 import com.eee.filmplatform.services.identity.dto.request.LoginRequest;
 import com.eee.filmplatform.services.identity.dto.request.LogoutRequest;
@@ -18,6 +22,7 @@ import com.eee.filmplatform.services.identity.dto.response.RefreshTokenResponse;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.repository.UserRepository;
 import com.eee.filmplatform.services.identity.security.CustomUserDetails;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
 import com.eee.filmplatform.services.identity.security.jwt.JwtService;
@@ -44,6 +49,10 @@ public class AuthServiceImpl implements AuthService {
 
         private final PasswordResetService passwordResetService;
 
+        private final UserRepository userRepository;
+
+        Authentication authentication = null;
+
         @Override
         public UserResponse register(RegisterRequest request) {
 
@@ -54,16 +63,46 @@ public class AuthServiceImpl implements AuthService {
         @Override
         public LoginResponse login(LoginRequest request) {
 
-                Authentication authentication = authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(
+                User checkUserLock = userRepository
+                                .findByUsernameOrEmail(
                                                 request.username(),
-                                                request.password()));
+                                                request.username())
+                                .orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
+
+                if (!checkUserLock.isAccountNonLocked()) {
+
+                        if (checkUserLock.getAccountLockedUntil() != null
+                                        && Instant.now().isAfter(checkUserLock.getAccountLockedUntil())) {
+
+                                userService.unlockAccount(checkUserLock);
+
+                        } else {
+
+                                throw new AccountLockedException(
+                                                "Account is locked. Please try again later.");
+                        }
+                }
+
+                try {
+                        authentication = authenticationManager.authenticate(
+                                        new UsernamePasswordAuthenticationToken(
+                                                        request.username(),
+                                                        request.password()));
+                } catch (BadCredentialsException ex) {
+
+                        userService.loginFailed(request.username());
+
+                        throw new InvalidCredentialsException(
+                                        "Invalid username or password");
+                }
 
                 CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
+                userService.loginSucceeded(user.getUser());
+
                 if (!user.getUser().isEmailVerified()) {
-                        throw new IllegalArgumentException(
-                                "Please verify your email before logging in.");
+                        throw new EmailNotVerifiedException(
+                                        "Please verify your email before logging in.");
                 }
 
                 String accessToken = jwtService.generateAccessToken(user);
@@ -130,13 +169,13 @@ public class AuthServiceImpl implements AuthService {
 
         @Override
         public void forgotPassword(ForgotPasswordRequest request) {
-                
-                 passwordResetService.forgotPassword(request);
+
+                passwordResetService.forgotPassword(request);
         }
 
         @Override
         public void resetPassword(ResetPasswordRequest request) {
-                
+
                 passwordResetService.resetPassword(request);
         }
 }
