@@ -16,6 +16,8 @@ import com.eee.filmplatform.services.identity.dto.response.RefreshTokenResponse;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.repository.RoleRepository;
+import com.eee.filmplatform.services.identity.repository.UserRoleRepository;
 import com.eee.filmplatform.services.identity.security.CustomUserDetails;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
 import com.eee.filmplatform.services.identity.security.jwt.JwtService;
@@ -38,6 +40,10 @@ public class AuthServiceImpl implements AuthService {
         private final JwtProperties jwtProperties;
 
         private final RefreshTokenService refreshTokenService;
+
+        private final RoleRepository roleRepository;
+
+        private final UserRoleRepository userRoleRepository;
 
         @Override
         public UserResponse register(RegisterRequest request) {

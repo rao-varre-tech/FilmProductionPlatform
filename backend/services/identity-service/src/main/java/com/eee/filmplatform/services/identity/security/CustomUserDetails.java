@@ -3,6 +3,7 @@ package com.eee.filmplatform.services.identity.security;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.eee.filmplatform.services.identity.entity.User;
@@ -20,7 +21,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return java.util.Collections.emptyList();
+        return user.getUserRoles()
+        .stream()
+        .map(userRole ->
+                new SimpleGrantedAuthority(
+                        "ROLE_" + userRole.getRole().getName().name()))
+        .toList();
     }
 
     @Override

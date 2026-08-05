@@ -1,15 +1,21 @@
 package com.eee.filmplatform.services.identity.entity;
 
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.eee.filmplatform.services.identity.enums.UserStatus;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -46,5 +52,12 @@ public class User extends BaseEntity {
     private boolean accountNonLocked = true;
 
     private Instant lastLoginAt;
+
+    @OneToMany(
+        mappedBy = "user",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
+    private Set<UserRole> userRoles = new HashSet<>();
 
 }

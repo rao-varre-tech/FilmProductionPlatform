@@ -1,8 +1,11 @@
 package com.eee.filmplatform.services.identity.entity;
 
+import java.util.HashSet;
+
 import com.eee.filmplatform.services.identity.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.Set;
 
 @Getter
 @Builder
@@ -22,4 +25,9 @@ public class Role extends BaseEntity {
     @Builder.Default
     @Column(nullable = false)
     private boolean system = true;
+
+    @OneToMany(
+        mappedBy = "role",
+        fetch = FetchType.LAZY)
+    private Set<UserRole> userRoles = new HashSet<>();
 }

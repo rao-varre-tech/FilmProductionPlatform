@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
-import com.eee.filmplatform.services.identity.entity.Role;
 import com.eee.filmplatform.services.identity.entity.User;
-import com.eee.filmplatform.services.identity.enums.RoleName;
 import com.eee.filmplatform.services.identity.enums.UserStatus;
 import com.eee.filmplatform.services.identity.mapper.UserMapper;
 import com.eee.filmplatform.services.identity.repository.RoleRepository;
@@ -38,13 +36,11 @@ public class UserServiceImpl implements UserService {
 
         validateRegistration(request);
 
-        Role userRole = getDefaultUserRole();
-
         User user = buildUser(request);
 
         User savedUser = userRepository.save(user);
 
-        userRoleService.assignRole(savedUser, userRole);
+        userRoleService.assignRole(savedUser);
 
         return userMapper.toResponse(savedUser);
     }
@@ -58,12 +54,6 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsername(request.username())) {
             throw new IllegalArgumentException("Username already exists");
         }
-    }
-
-    private Role getDefaultUserRole() {
-
-        return roleRepository.findByName(RoleName.USER)
-                .orElseThrow(() -> new IllegalStateException("Default USER role not found"));
     }
 
     private User buildUser(RegisterRequest request) {
