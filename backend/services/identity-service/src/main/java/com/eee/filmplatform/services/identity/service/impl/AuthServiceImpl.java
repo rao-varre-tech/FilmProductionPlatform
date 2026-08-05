@@ -62,6 +62,11 @@ public class AuthServiceImpl implements AuthService {
 
                 CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
+                if (!user.getUser().isEmailVerified()) {
+                        throw new IllegalArgumentException(
+                                "Please verify your email before logging in.");
+                }
+
                 String accessToken = jwtService.generateAccessToken(user);
 
                 String refreshToken = jwtService.generateRefreshToken(user);

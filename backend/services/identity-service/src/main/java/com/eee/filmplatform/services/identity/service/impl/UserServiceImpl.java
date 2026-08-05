@@ -10,6 +10,7 @@ import com.eee.filmplatform.services.identity.enums.UserStatus;
 import com.eee.filmplatform.services.identity.mapper.UserMapper;
 import com.eee.filmplatform.services.identity.repository.RoleRepository;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
+import com.eee.filmplatform.services.identity.service.EmailVerificationService;
 import com.eee.filmplatform.services.identity.service.UserRoleService;
 import com.eee.filmplatform.services.identity.service.UserService;
 
@@ -22,13 +23,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
-
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserRoleService userRoleService;
+
+    private final EmailVerificationService emailVerificationService;
 
     @Override
     @Transactional
@@ -41,6 +42,8 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
 
         userRoleService.assignRole(savedUser);
+
+        emailVerificationService.create(savedUser);
 
         return userMapper.toResponse(savedUser);
     }

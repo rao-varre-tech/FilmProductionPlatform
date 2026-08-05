@@ -1,9 +1,11 @@
 package com.eee.filmplatform.services.identity.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,7 @@ import com.eee.filmplatform.services.identity.dto.response.LoginResponse;
 import com.eee.filmplatform.services.identity.dto.response.RefreshTokenResponse;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.service.AuthService;
+import com.eee.filmplatform.services.identity.service.EmailVerificationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
         private final AuthService authService;
+
+        private final EmailVerificationService emailVerificationService;
 
         @PostMapping("/register")
         @ResponseStatus(HttpStatus.CREATED)
@@ -66,5 +71,16 @@ public class AuthController {
                 return ApiResponse.success(
                                 null,
                                 "Logout successful");
+        }
+
+        @GetMapping("/verify")
+        public ApiResponse<Void> verifyEmail(
+                        @RequestParam("token") String token) {
+
+                String message = emailVerificationService.verify(token);
+
+                return ApiResponse.success(
+                                null,
+                                message);
         }
 }

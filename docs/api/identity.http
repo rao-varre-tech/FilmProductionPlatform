@@ -4,12 +4,16 @@ POST http://localhost:8081/api/v1/auth/register
 Content-Type: application/json
 
 {
-  "email": "johnbro@example.com",
-  "username": "johnbro123",
+  "email": "babi@example.com",
+  "username": "babi123",
   "password": "Password@123",
-  "firstName": "John",
-  "lastName": "Bro"
+  "firstName": "Babi",
+  "lastName": "Meru"
 }
+
+### Email Verification
+
+GET http://localhost:8081/api/v1/auth/verify?token=123487d5-3abc-4754-b14a-cbe51972e670
 
 
 ### Login
@@ -18,7 +22,7 @@ POST http://localhost:8081/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "username": "johnbro123",
+    "username": "babi123",
     "password": "Password@123"
 }
 
