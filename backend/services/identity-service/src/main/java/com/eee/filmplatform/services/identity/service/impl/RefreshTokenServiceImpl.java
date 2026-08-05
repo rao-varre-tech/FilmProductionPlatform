@@ -1,6 +1,7 @@
 package com.eee.filmplatform.services.identity.service.impl;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.eee.filmplatform.services.identity.repository.RefreshTokenRepository;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
 import com.eee.filmplatform.services.identity.service.RefreshTokenService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -66,8 +68,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
+    @Transactional
     public void revokeAll(User user) {
 
-        // We'll implement this next sprint.
+        List<RefreshToken> tokens = refreshTokenRepository.findByUserAndRevokedFalse(user);
+
+        tokens.forEach(token -> token.setRevoked(true));
+
+        refreshTokenRepository.saveAll(tokens);
     }
 }

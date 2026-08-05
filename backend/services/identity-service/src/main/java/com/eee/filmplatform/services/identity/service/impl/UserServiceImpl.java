@@ -1,15 +1,22 @@
 package com.eee.filmplatform.services.identity.service.impl;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eee.filmplatform.services.identity.common.exception.ResourceNotFoundException;
+import com.eee.filmplatform.services.identity.dto.request.ChangePasswordRequest;
 import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
+import com.eee.filmplatform.services.identity.dto.request.UpdateUserRequest;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.User;
 import com.eee.filmplatform.services.identity.enums.UserStatus;
 import com.eee.filmplatform.services.identity.mapper.UserMapper;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
+import com.eee.filmplatform.services.identity.security.CustomUserDetails;
 import com.eee.filmplatform.services.identity.service.EmailVerificationService;
+import com.eee.filmplatform.services.identity.service.RefreshTokenService;
 import com.eee.filmplatform.services.identity.service.UserRoleService;
 import com.eee.filmplatform.services.identity.service.UserService;
 
@@ -30,6 +37,8 @@ public class UserServiceImpl implements UserService {
 
     private final EmailVerificationService emailVerificationService;
 
+    private final RefreshTokenService refreshTokenService;
+
     @Override
     @Transactional
     public UserResponse register(RegisterRequest request) {
@@ -45,6 +54,57 @@ public class UserServiceImpl implements UserService {
         emailVerificationService.create(savedUser);
 
         return userMapper.toResponse(savedUser);
+    }
+
+    @Override
+    public UserResponse getCurrentUser() {
+
+        User user = getAuthenticatedUser();
+
+        System.out.println("id: " + user.getId());
+        System.out.println("email: " + user.getEmail());
+        System.out.println("username: " + user.getUsername());
+        System.out.println("first name: " + user.getFirstName());
+        System.out.println("last name: " + user.getLastName());
+        System.out.println("status: " + user.getStatus());
+
+        UserResponse userResponse = userMapper.toResponse(user);
+
+        System.out.println("User Response: " + userResponse);
+
+        return userResponse;
+    }
+
+    @Override
+    @Transactional
+    public UserResponse updateProfile(UpdateUserRequest request) {
+
+        User user = getAuthenticatedUser();
+
+        user.setFirstName(request.firstName());
+        user.setLastName(request.lastName());
+
+        User updatedUser = userRepository.save(user);
+
+        return userMapper.toResponse(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(ChangePasswordRequest request) {
+
+        User user = getAuthenticatedUser();
+        if (!passwordEncoder.matches(
+                request.currentPassword(),
+                user.getPassword())) {
+
+            throw new IllegalArgumentException(
+                    "Current password is incorrect.");
+        }
+        user.setPassword(
+                passwordEncoder.encode(request.newPassword()));
+        userRepository.save(user);
+        refreshTokenService.revokeAll(user);
     }
 
     private void validateRegistration(RegisterRequest request) {
@@ -76,5 +136,15 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonLocked(true);
 
         return user;
+    }
+
+    private User getAuthenticatedUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return userRepository.findById(userDetails.getUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }

@@ -39,18 +39,16 @@ public class AuthController {
         public ApiResponse<UserResponse> register(
                         @Valid @RequestBody RegisterRequest request) {
 
-                return ApiResponse.success(
-                                authService.register(request),
-                                "User registered successfully");
+                return ApiResponse.success("User registered successfully",
+                                authService.register(request));
         }
 
         @PostMapping("/login")
         public ApiResponse<LoginResponse> login(
                         @Valid @RequestBody LoginRequest request) {
 
-                return ApiResponse.success(
-                                authService.login(request),
-                                "Login successful");
+                return ApiResponse.success("Login successful",
+                                authService.login(request));
         }
 
         @PostMapping("/refresh")
@@ -59,9 +57,8 @@ public class AuthController {
 
                 System.out.println("=== REFRESH ENDPOINT HIT ===");
 
-                return ApiResponse.success(
-                                authService.refresh(request),
-                                "Access token refreshed successfully");
+                return ApiResponse.success("Access token refreshed successfully",
+                                authService.refresh(request));
         }
 
         @PostMapping("/logout")
@@ -70,9 +67,8 @@ public class AuthController {
 
                 authService.logout(request);
 
-                return ApiResponse.success(
-                                null,
-                                "Logout successful");
+                return ApiResponse.success("Logout successful",
+                                null);
         }
 
         @GetMapping("/verify")
@@ -81,9 +77,8 @@ public class AuthController {
 
                 String message = emailVerificationService.verify(token);
 
-                return ApiResponse.success(
-                                null,
-                                message);
+                return ApiResponse.success(message,
+                                null);
         }
 
         @PostMapping("/forgot-password")
@@ -92,19 +87,17 @@ public class AuthController {
 
                 authService.forgotPassword(request);
 
-                return ApiResponse.success(
-                                null,
-                                "If the email exists, a password reset link has been sent.");
+                return ApiResponse.success("If the email exists, a password reset link has been sent.",
+                                null);
         }
 
         @PostMapping("/reset-password")
         public ApiResponse<Void> resetPassword(
-                @Valid @RequestBody ResetPasswordRequest request) {
+                        @Valid @RequestBody ResetPasswordRequest request) {
 
                 authService.resetPassword(request);
 
-                return ApiResponse.success(
-                        null,
-                        "Password reset successfully.");
+                return ApiResponse.success("Password reset successfully.",
+                                null);
         }
 }

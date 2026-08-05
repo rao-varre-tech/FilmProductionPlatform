@@ -26,10 +26,34 @@ Content-Type: application/json
     "password": "Password@123"
 }
 
-### User
+### Current User
 
 GET http://localhost:8081/api/v1/users/me
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1MzcxNSwiZXhwIjoxNzg1OTU0NjE1fQ.yViQLEtLQJEFunEwFrEpL2G04Hxxl5FvkYW6MUUUX-GfDgVJeONEsXa--ioRSOnz
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+
+
+### Update User
+
+PUT http://localhost:8081/api/v1/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+
+{
+  "firstName": "Rao",
+  "lastName": "Varre"
+}
+
+
+### Change Password
+
+PATCH http://localhost:8081/api/v1/users/password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+
+{
+  "currentPassword": "password@123",
+  "newPassword": "Password@123"
+}
 
 
 ### RefreshToken
@@ -38,7 +62,7 @@ POST http://localhost:8081/api/v1/auth/refresh
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1MzcxNSwiZXhwIjoxNzg4NTQ1NzE1fQ.JAvuyOgkgl0gycRVvLCQ6HOZtUb1XxB5bj3-gcRYSe0HsiVCEUDm8j0dEln2f8gD"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2MTk0MCwiZXhwIjoxNzg4NTUzOTQwfQ.4FUyjdtmSXD0w08e9AP7W1u-0owRU5SEdsElWD8P35aYdLc8FGBX8Z3_PaX4mmcX"
 }
 
 ### Logout
@@ -47,7 +71,7 @@ POST http://localhost:8081/api/v1/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk1NjkwMywiZXhwIjoxNzg4NTQ4OTAzfQ.zmfScrr6OIGcP2v_tx07wV0WgaqtdgIvLflOWncDphxY6vPWVbnDYzp7kiS-1_r-"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2NDE4MSwiZXhwIjoxNzg4NTU2MTgxfQ.gSOEFC69Gtff0EWgN-P0iZe349gwqS8SDMlrPdR4xqyxOXQPfl1bK-EUkh4k_BVd"
 }
 
 

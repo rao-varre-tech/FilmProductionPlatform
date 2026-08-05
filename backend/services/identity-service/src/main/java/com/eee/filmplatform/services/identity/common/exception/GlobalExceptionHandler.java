@@ -89,6 +89,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<ErrorResponse> handleException(
                         Exception ex,
                         HttpServletRequest request) {
+                ex.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(ErrorResponse.builder()
                                                 .timestamp(Instant.now())

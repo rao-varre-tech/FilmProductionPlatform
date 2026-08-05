@@ -11,7 +11,7 @@ public record ApiResponse<T>(
                 T data,
                 Instant timestamp) {
 
-        public static <T> ApiResponse<T> success(T data, String message) {
+        public static <T> ApiResponse<T> success(String message, T data) {
                 return ApiResponse.<T>builder()
                                 .success(true)
                                 .message(message)
