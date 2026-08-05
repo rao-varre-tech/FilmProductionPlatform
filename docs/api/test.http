@@ -1,0 +1,15 @@
+### Test User Endpoint
+
+GET http://localhost:8081/api/v1/test/user
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTMzNjU2LCJleHAiOjE3ODU5MzQ1NTZ9.rlmtDaqJWgf8Fhj7uMQCav_ziD1-SYEs2S47cCUzjBKcizRBKMKQcIWkomTNe5vC
+
+
+### Test Admin Endpoint
+
+GET http://localhost:8081/api/v1/test/admin
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTMzNjU2LCJleHAiOjE3ODU5MzQ1NTZ9.rlmtDaqJWgf8Fhj7uMQCav_ziD1-SYEs2S47cCUzjBKcizRBKMKQcIWkomTNe5vC
+
+
+### Test User-Read Endpoint
+GET http://localhost:8081/api/v1/test/user-read
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTMzNjU2LCJleHAiOjE3ODU5MzQ1NTZ9.rlmtDaqJWgf8Fhj7uMQCav_ziD1-SYEs2S47cCUzjBKcizRBKMKQcIWkomTNe5vC

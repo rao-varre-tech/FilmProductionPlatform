@@ -50,6 +50,8 @@ public class CustomUserDetails implements UserDetails {
             }
         }
 
+        authorities.forEach(authority -> System.out.println("Authority: " + authority.getAuthority()));
+
         return authorities;
     }
 
