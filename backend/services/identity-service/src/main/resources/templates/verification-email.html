@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Email</title>
+</head>
+
+<body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:40px;">
+
+    <div style="background:white;padding:30px;border-radius:8px;max-width:600px;margin:auto;">
+
+        <h2>Welcome to Film Production Platform</h2>
+
+        <p>
+            Hello <strong th:text="${firstName}"></strong>,
+        </p>
+
+        <p>
+            Thank you for registering.
+        </p>
+
+        <p>
+            Please verify your email.
+        </p>
+
+        <p>
+            <a th:href="${verificationUrl}" style="
+             background:#2563eb;
+             color:white;
+             text-decoration:none;
+             padding:12px 24px;
+             border-radius:6px;">
+                Verify Email
+            </a>
+        </p>
+
+        <p>
+            This link expires in 24 hours.
+        </p>
+
+    </div>
+
+</body>
+
+</html>

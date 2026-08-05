@@ -13,6 +13,7 @@ import com.eee.filmplatform.services.identity.entity.User;
 import com.eee.filmplatform.services.identity.repository.EmailVerificationTokenRepository;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
 import com.eee.filmplatform.services.identity.service.EmailService;
+import com.eee.filmplatform.services.identity.service.EmailTemplateService;
 import com.eee.filmplatform.services.identity.service.EmailVerificationService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class EmailVerificationServiceImpl
 
         private final EmailService emailService;
 
+        private final EmailTemplateService emailTemplateService;
+
         @Override
         @Transactional
         public EmailVerificationToken create(User user) {
@@ -41,50 +44,21 @@ public class EmailVerificationServiceImpl
 
                 EmailVerificationToken savedToken = tokenRepository.save(token);
 
+                String verificationUrl = "http://localhost:8081/api/v1/auth/verify?token="
+                                + savedToken.getToken();
+
                 // Temporary until SMTP is configured
                 System.out.println();
                 System.out.println("==========================================");
                 System.out.println("Email Verification URL");
                 System.out.println(
-                                "http://localhost:8081/api/v1/auth/verify?token="
-                                                + savedToken.getToken());
+                                verificationUrl);
                 System.out.println("==========================================");
                 System.out.println();
-                String verificationUrl = "http://localhost:8081/api/v1/auth/verify?token="
-                                + savedToken.getToken();
-                String html = """
-                                <html>
-                                <body style="font-family:Arial,sans-serif">
 
-                                <h2>Welcome to Film Production Platform</h2>
-
-                                <p>
-                                Thank you for registering.
-                                </p>
-
-                                <p>
-                                Click the button below to verify your email.
-                                </p>
-
-                                <p>
-                                <a href="%s"
-                                style="
-                                background:#2563eb;
-                                color:white;
-                                padding:12px 24px;
-                                text-decoration:none;
-                                border-radius:6px;">
-                                Verify Email
-                                </a>
-                                </p>
-
-                                <p>
-                                This link expires in 24 hours.
-                                </p>
-
-                                </body>
-                                </html>
-                                """.formatted(verificationUrl);
+                String html = emailTemplateService.verificationEmail(
+                                user.getFirstName(),
+                                verificationUrl);
                 emailService.sendHtmlEmail(user.getEmail(),
                                 "Verify your Film Platform account",
                                 html);
