@@ -23,13 +23,13 @@ Content-Type: application/json
 
 {
     "username": "babi123",
-    "password": "Password@123"
+    "password": "Babi@123"
 }
 
 ### User
 
 GET http://localhost:8081/api/v1/users/me
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODc3NDc5LCJleHAiOjE3ODU4NzgzNzl9.Z6r39isJXrF4uQnW2LYED6bDKhGc0qgAFgqMAmqsQs3B2nNL_P2kKM-gIxHQC77o
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODU5NDc1NzN9.IsyPE6ZuaDFEbHc0P9ZVnYpjz2PNHds9jD6Ll0w3JxcFkZcDsKlM-T-r9_9mxXB4
 
 
 ### RefreshToken
@@ -38,7 +38,7 @@ POST http://localhost:8081/api/v1/auth/refresh
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODg4NjIyLCJleHAiOjE3ODg0ODA2MjJ9.eNqiW3dT8dGac1y9Wk0WiNp9cpdacf0cki_YKIkVnf1zJdSftbv7P_FmpxdAoV12"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODg1Mzg2NzN9.HFKfFmDO-kHCHM5FStW2XZKDv3Vn9d5zw_OR_HqGujJnQMjbk89ZR1YT74LYd0XO"
 }
 
 ### Logout
@@ -47,5 +47,26 @@ POST http://localhost:8081/api/v1/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1ODg4NjIyLCJleHAiOjE3ODg0ODA2MjJ9.eNqiW3dT8dGac1y9Wk0WiNp9cpdacf0cki_YKIkVnf1zJdSftbv7P_FmpxdAoV12"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiYWJpMTIzIiwiaXNzIjoiZmlsbS1wcm9kdWN0aW9uLXBsYXRmb3JtIiwiaWF0IjoxNzg1OTQ2NjczLCJleHAiOjE3ODg1Mzg2NzN9.HFKfFmDO-kHCHM5FStW2XZKDv3Vn9d5zw_OR_HqGujJnQMjbk89ZR1YT74LYd0XO"
+}
+
+
+### Forget Password
+
+POST http://localhost:8081/api/v1/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "babi@example.com"
+}
+
+
+### Reset Password
+
+POST http://localhost:8081/api/v1/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "d8b2924d-90a8-43de-87ac-2ee4bdcc5843",
+  "newPassword": "Babi@123"
 }

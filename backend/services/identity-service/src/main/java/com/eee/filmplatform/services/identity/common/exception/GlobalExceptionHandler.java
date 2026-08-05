@@ -103,17 +103,33 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(AuthorizationDeniedException.class)
         public ResponseEntity<ErrorResponse> handleAuthorizationDenied(
-                AuthorizationDeniedException ex,
-                HttpServletRequest request) {
+                        AuthorizationDeniedException ex,
+                        HttpServletRequest request) {
 
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ErrorResponse.builder()
-                                .timestamp(Instant.now())
-                                .status(HttpStatus.FORBIDDEN.value())
-                                .error("Forbidden")
-                                .message("Access denied")
-                                .path(request.getRequestURI())
-                                .details(List.of())
-                                .build());
+                                .body(ErrorResponse.builder()
+                                                .timestamp(Instant.now())
+                                                .status(HttpStatus.FORBIDDEN.value())
+                                                .error("Forbidden")
+                                                .message("Access denied")
+                                                .path(request.getRequestURI())
+                                                .details(List.of())
+                                                .build());
+        }
+
+        @ExceptionHandler(InvalidTokenException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidToken(
+                        InvalidTokenException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(ErrorResponse.builder()
+                                                .timestamp(Instant.now())
+                                                .status(HttpStatus.UNAUTHORIZED.value())
+                                                .error("Unauthorized")
+                                                .message(ex.getMessage())
+                                                .path(request.getRequestURI())
+                                                .details(List.of())
+                                                .build());
         }
 }

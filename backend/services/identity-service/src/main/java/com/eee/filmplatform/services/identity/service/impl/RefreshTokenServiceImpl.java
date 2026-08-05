@@ -1,14 +1,18 @@
 package com.eee.filmplatform.services.identity.service.impl;
 
+import java.time.Instant;
+
+import org.springframework.stereotype.Service;
+
+import com.eee.filmplatform.services.identity.common.exception.InvalidTokenException;
+import com.eee.filmplatform.services.identity.common.exception.ResourceNotFoundException;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
 import com.eee.filmplatform.services.identity.repository.RefreshTokenRepository;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
 import com.eee.filmplatform.services.identity.service.RefreshTokenService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +40,19 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Override
     public RefreshToken verify(String token) {
 
-        return refreshTokenRepository.findByToken(token)
-                .orElseThrow(() ->
-                        new RuntimeException("Refresh token not found"));
+        RefreshToken refreshToken = refreshTokenRepository
+                .findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Refresh token not found"));
+
+        if (refreshToken.isRevoked()) {
+            throw new InvalidTokenException("Refresh token has expired");
+        }
+
+        if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
+            throw new InvalidTokenException("Refresh token has expired");
+        }
+
+        return refreshToken;
     }
 
     @Override
