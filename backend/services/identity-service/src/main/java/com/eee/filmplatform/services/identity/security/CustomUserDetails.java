@@ -1,12 +1,18 @@
 package com.eee.filmplatform.services.identity.security;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.eee.filmplatform.services.identity.entity.Permission;
+import com.eee.filmplatform.services.identity.entity.Role;
+import com.eee.filmplatform.services.identity.entity.RolePermission;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.entity.UserRole;
 
 import lombok.Getter;
 
@@ -21,12 +27,30 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getUserRoles()
-        .stream()
-        .map(userRole ->
-                new SimpleGrantedAuthority(
-                        "ROLE_" + userRole.getRole().getName().name()))
-        .toList();
+
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        for (UserRole userRole : user.getUserRoles()) {
+
+            Role role = userRole.getRole();
+
+            // Role authority
+            authorities.add(
+                    new SimpleGrantedAuthority(
+                            "ROLE_" + role.getName().name()));
+
+            // Permission authorities
+            for (RolePermission rolePermission : role.getRolePermissions()) {
+
+                Permission permission = rolePermission.getPermission();
+
+                authorities.add(
+                        new SimpleGrantedAuthority(
+                                permission.getName().name()));
+            }
+        }
+
+        return authorities;
     }
 
     @Override
