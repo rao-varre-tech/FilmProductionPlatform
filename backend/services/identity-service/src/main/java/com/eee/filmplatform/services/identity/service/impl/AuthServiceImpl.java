@@ -75,25 +75,37 @@ public class AuthServiceImpl implements AuthService {
         @Override
         public RefreshTokenResponse refresh(RefreshTokenRequest request) {
 
+                // Verify refresh token from database
                 RefreshToken refreshToken = refreshTokenService.verify(request.refreshToken());
 
                 if (refreshToken.isRevoked()) {
-                        throw new IllegalArgumentException("Refresh token has been revoked");
+                        throw new IllegalArgumentException(
+                                        "Refresh token has been revoked");
                 }
 
                 if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
-                        throw new IllegalArgumentException("Refresh token has expired");
+                        throw new IllegalArgumentException(
+                                        "Refresh token has expired");
                 }
 
                 User user = refreshToken.getUser();
 
                 CustomUserDetails userDetails = new CustomUserDetails(user);
 
+                // Revoke current refresh token
+                refreshTokenService.revoke(refreshToken.getToken());
+
+                // Generate new tokens
                 String accessToken = jwtService.generateAccessToken(userDetails);
+
+                String newRefreshToken = jwtService.generateRefreshToken(userDetails);
+
+                // Persist new refresh token
+                refreshTokenService.create(user, newRefreshToken);
 
                 return new RefreshTokenResponse(
                                 accessToken,
-                                refreshToken.getToken(),
+                                newRefreshToken,
                                 "Bearer",
                                 jwtProperties.getAccessTokenExpiration());
         }
