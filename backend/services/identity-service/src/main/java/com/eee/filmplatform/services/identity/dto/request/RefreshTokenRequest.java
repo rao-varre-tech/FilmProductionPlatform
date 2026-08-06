@@ -1,10 +1,11 @@
 package com.eee.filmplatform.services.identity.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 public record RefreshTokenRequest(
 
-        @NotBlank String refreshToken
+                @Schema(description = "Refresh token used to obtain a new access token", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", requiredMode = Schema.RequiredMode.REQUIRED) @NotBlank String refreshToken
 
 ) {
 }

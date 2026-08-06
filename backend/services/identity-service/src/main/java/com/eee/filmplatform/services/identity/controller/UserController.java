@@ -13,9 +13,15 @@ import com.eee.filmplatform.services.identity.dto.request.UpdateUserRequest;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Users", description = "User profile management APIs")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -23,13 +29,11 @@ public class UserController {
 
     private final UserService userService;
 
-    // @GetMapping("/me")
-    // public String me(Authentication authentication) {
-
-    // return "Hello " + authentication.getName();
-
-    // }
-
+    @Operation(summary = "Get current user profile", description = "Retrieve the authenticated user's profile information.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "User profile retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
     @GetMapping("/me")
     public ApiResponse<UserResponse> getCurrentUser() {
 
@@ -38,18 +42,28 @@ public class UserController {
                 userService.getCurrentUser());
     }
 
+    @Operation(summary = "Update current user profile", description = "Update the authenticated user's first and last name.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Profile updated successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid profile update payload", content = @Content)
+    })
     @PutMapping("/me")
     public ApiResponse<UserResponse> updateProfile(
-            @Valid @RequestBody UpdateUserRequest request) {
+            @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated profile information", required = true, content = @Content(schema = @Schema(implementation = UpdateUserRequest.class))) UpdateUserRequest request) {
 
         return ApiResponse.success(
                 "Profile updated successfully",
                 userService.updateProfile(request));
     }
 
+    @Operation(summary = "Change password", description = "Change the authenticated user's password.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Password changed successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid password change payload", content = @Content)
+    })
     @PatchMapping("/password")
     public ApiResponse<Void> changePassword(
-            @Valid @RequestBody ChangePasswordRequest request) {
+            @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Current and new password values", required = true, content = @Content(schema = @Schema(implementation = ChangePasswordRequest.class))) ChangePasswordRequest request) {
 
         userService.changePassword(request);
 

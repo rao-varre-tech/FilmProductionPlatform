@@ -1,22 +1,24 @@
 package com.eee.filmplatform.services.identity.dto.response;
 
+import java.util.UUID;
+
 import com.eee.filmplatform.services.identity.enums.UserStatus;
 
-import java.util.UUID;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record UserResponse(
 
-        UUID id,
+                @Schema(description = "Unique user identifier", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6") UUID id,
 
-        String email,
+                @Schema(description = "Email address", example = "john.doe@example.com") String email,
 
-        String username,
+                @Schema(description = "Username", example = "johndoe") String username,
 
-        String firstName,
+                @Schema(description = "First name", example = "John") String firstName,
 
-        String lastName,
+                @Schema(description = "Last name", example = "Doe") String lastName,
 
-        UserStatus status
+                @Schema(description = "Current account status", example = "ACTIVE") UserStatus status
 
 ) {
 }
