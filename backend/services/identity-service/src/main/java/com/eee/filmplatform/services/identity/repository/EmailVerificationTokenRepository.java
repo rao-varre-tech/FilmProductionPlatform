@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eee.filmplatform.services.identity.entity.EmailVerificationToken;
+import com.eee.filmplatform.services.identity.entity.User;
 
 public interface EmailVerificationTokenRepository
         extends JpaRepository<EmailVerificationToken, UUID> {
@@ -13,4 +14,6 @@ public interface EmailVerificationTokenRepository
     Optional<EmailVerificationToken> findByToken(String token);
 
     boolean existsByToken(String token);
+
+    Optional<EmailVerificationToken> findByUser(User user);
 }

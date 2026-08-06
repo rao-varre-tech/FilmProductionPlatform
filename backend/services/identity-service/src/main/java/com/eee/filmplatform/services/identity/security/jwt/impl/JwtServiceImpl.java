@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -112,6 +113,7 @@ public class JwtServiceImpl implements JwtService {
 
         return Jwts.builder()
                 .claims(new HashMap<>(extraClaims))
+                .id(UUID.randomUUID().toString())
                 .subject(user.getUsername())
                 .issuer(jwtProperties.getIssuer())
                 .issuedAt(Date.from(now))

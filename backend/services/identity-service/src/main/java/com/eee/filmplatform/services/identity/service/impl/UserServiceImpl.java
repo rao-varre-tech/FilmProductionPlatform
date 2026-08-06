@@ -104,6 +104,13 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = userRepository.save(user);
 
+        auditService.log(
+                AuditAction.PROFILE_UPDATED,
+                AuditStatus.SUCCESS,
+                user,
+                user.getUsername(),
+                "Profile updated successfully.");
+
         return userMapper.toResponse(updatedUser);
     }
 
