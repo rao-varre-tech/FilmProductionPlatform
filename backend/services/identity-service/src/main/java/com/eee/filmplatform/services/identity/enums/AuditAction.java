@@ -1,0 +1,36 @@
+package com.eee.filmplatform.services.identity.enums;
+
+public enum AuditAction {
+
+    REGISTER,
+
+    LOGIN,
+
+    TOKEN_REFRESH,
+
+    TOKEN_REFRESH_FAILED,
+
+    LOGIN_FAILED,
+
+    LOGOUT,
+
+    EMAIL_VERIFIED,
+
+    VERIFICATION_EMAIL_SENT,
+
+    PASSWORD_RESET_REQUESTED,
+
+    PASSWORD_RESET_COMPLETED,
+
+    PASSWORD_CHANGED,
+
+    PROFILE_UPDATED,
+
+    ACCOUNT_LOCKED,
+
+    ACCOUNT_UNLOCKED,
+
+    ROLE_ASSIGNED,
+
+    ROLE_REMOVED
+}

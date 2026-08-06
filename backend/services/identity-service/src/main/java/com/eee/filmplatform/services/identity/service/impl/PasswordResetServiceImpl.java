@@ -16,9 +16,12 @@ import com.eee.filmplatform.services.identity.dto.request.ResetPasswordRequest;
 import com.eee.filmplatform.services.identity.entity.PasswordResetToken;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.enums.AuditAction;
+import com.eee.filmplatform.services.identity.enums.AuditStatus;
 import com.eee.filmplatform.services.identity.repository.PasswordResetTokenRepository;
 import com.eee.filmplatform.services.identity.repository.RefreshTokenRepository;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
+import com.eee.filmplatform.services.identity.service.AuditService;
 import com.eee.filmplatform.services.identity.service.EmailService;
 import com.eee.filmplatform.services.identity.service.PasswordResetService;
 
@@ -38,6 +41,8 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         private final RefreshTokenRepository refreshTokenRepository;
 
         private final EmailService emailService;
+
+        private final AuditService auditService;
 
         @Override
         @Transactional
@@ -92,6 +97,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
                                                 If you did not request a password reset, you can safely ignore this email.
                                                 """
                                                 .formatted(verificationUrl));
+
+                auditService.log(
+                                AuditAction.PASSWORD_RESET_REQUESTED,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Password reset requested.");
         }
 
         @Override
@@ -130,6 +142,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
                 token.setUsed(true);
 
                 passwordResetTokenRepository.save(token);
+
+                auditService.log(
+                                AuditAction.PASSWORD_RESET_COMPLETED,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Password reset completed.");
         }
 
 }

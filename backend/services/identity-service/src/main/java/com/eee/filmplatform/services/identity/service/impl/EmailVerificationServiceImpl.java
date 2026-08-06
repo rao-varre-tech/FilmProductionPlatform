@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eee.filmplatform.services.identity.common.exception.ResourceNotFoundException;
 import com.eee.filmplatform.services.identity.entity.EmailVerificationToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.enums.AuditAction;
+import com.eee.filmplatform.services.identity.enums.AuditStatus;
 import com.eee.filmplatform.services.identity.repository.EmailVerificationTokenRepository;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
+import com.eee.filmplatform.services.identity.service.AuditService;
 import com.eee.filmplatform.services.identity.service.EmailService;
 import com.eee.filmplatform.services.identity.service.EmailTemplateService;
 import com.eee.filmplatform.services.identity.service.EmailVerificationService;
@@ -30,6 +33,8 @@ public class EmailVerificationServiceImpl
         private final EmailService emailService;
 
         private final EmailTemplateService emailTemplateService;
+
+        private final AuditService auditService;
 
         @Override
         @Transactional
@@ -63,6 +68,13 @@ public class EmailVerificationServiceImpl
                                 "Verify your Film Platform account",
                                 html);
 
+                auditService.log(
+                                AuditAction.VERIFICATION_EMAIL_SENT,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Verification email sent.");
+
                 return savedToken;
         }
 
@@ -93,6 +105,13 @@ public class EmailVerificationServiceImpl
                 verificationToken.setVerified(true);
 
                 tokenRepository.save(verificationToken);
+
+                auditService.log(
+                                AuditAction.EMAIL_VERIFIED,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Email verified successfully.");
 
                 return "Email verified successfully.";
         }

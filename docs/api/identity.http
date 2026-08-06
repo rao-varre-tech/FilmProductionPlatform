@@ -23,24 +23,24 @@ Content-Type: application/json
 
 {
     "username": "raovarre",
-    "password": "Password@123"
+    "password": "password@123"
 }
 
 ### Current User
 
 GET http://localhost:8081/api/v1/users/me
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NjAzMTcyOCwiZXhwIjoxNzg2MDMyNjI4fQ.OFumJIqwDUG6rpDwmtn0gp2cZ6_V1sGMLyROdukxy2_EIeyk8cx9MdT-qhwzbpEb
 
 
 ### Update User
 
 PUT http://localhost:8081/api/v1/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NjAzMTcyOCwiZXhwIjoxNzg2MDMyNjI4fQ.OFumJIqwDUG6rpDwmtn0gp2cZ6_V1sGMLyROdukxy2_EIeyk8cx9MdT-qhwzbpEb
 
 {
   "firstName": "Rao",
-  "lastName": "Varre"
+  "lastName": "varre"
 }
 
 
@@ -48,11 +48,11 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpb
 
 PATCH http://localhost:8081/api/v1/users/password
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2Mzk3OSwiZXhwIjoxNzg1OTY0ODc5fQ.GFxHVpErJFegdnLjiNGQo-k1SpEkwr2TSNwvmd8eeOk3q2HenBlUW4ufNvVMs5dQ
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NjAzMTcyOCwiZXhwIjoxNzg2MDMyNjI4fQ.OFumJIqwDUG6rpDwmtn0gp2cZ6_V1sGMLyROdukxy2_EIeyk8cx9MdT-qhwzbpEb
 
 {
-  "currentPassword": "password@123",
-  "newPassword": "Password@123"
+  "currentPassword": "Password@123",
+  "newPassword": "password@123"
 }
 
 
@@ -62,7 +62,7 @@ POST http://localhost:8081/api/v1/auth/refresh
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2MTk0MCwiZXhwIjoxNzg4NTUzOTQwfQ.4FUyjdtmSXD0w08e9AP7W1u-0owRU5SEdsElWD8P35aYdLc8FGBX8Z3_PaX4mmcX"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NjAzMTkzOSwiZXhwIjoxNzg4NjIzOTM5fQ.4BJuk9t88AnEzjgeo6drWoL20-OFrsS-ElYHppoWSj1Ifn-8cdxkmXtHwuE641Lq"
 }
 
 ### Logout
@@ -71,7 +71,7 @@ POST http://localhost:8081/api/v1/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NTk2ODY1MywiZXhwIjoxNzg4NTYwNjUzfQ.hfHhT3H76opmeNExxqimxPp6TSArgEBKgrld63NftT67GsVJ1xPB0KxGe1CM9a_e"
+    "refreshToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYW92YXJyZSIsImlzcyI6ImZpbG0tcHJvZHVjdGlvbi1wbGF0Zm9ybSIsImlhdCI6MTc4NjAzMTk4NSwiZXhwIjoxNzg4NjIzOTg1fQ.uFl-oNwRE8gqB7DNL30hwAF39ejWHviMfTqG9td4BXOC--ZFqHrils5TmlWktPdg"
 }
 
 

@@ -9,8 +9,11 @@ import com.eee.filmplatform.services.identity.common.exception.InvalidTokenExcep
 import com.eee.filmplatform.services.identity.common.exception.ResourceNotFoundException;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.enums.AuditAction;
+import com.eee.filmplatform.services.identity.enums.AuditStatus;
 import com.eee.filmplatform.services.identity.repository.RefreshTokenRepository;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
+import com.eee.filmplatform.services.identity.service.AuditService;
 import com.eee.filmplatform.services.identity.service.RefreshTokenService;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +26,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     private final JwtProperties jwtProperties;
+
+    private final AuditService auditService;
 
     @Override
     public RefreshToken create(User user, String token) {
@@ -65,6 +70,15 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         refreshToken.setRevoked(true);
 
         refreshTokenRepository.save(refreshToken);
+
+        User user = refreshToken.getUser();
+
+        auditService.log(
+                AuditAction.LOGOUT,
+                AuditStatus.SUCCESS,
+                user,
+                user.getUsername(),
+                "User logged out successfully.");
     }
 
     @Override

@@ -15,10 +15,13 @@ import com.eee.filmplatform.services.identity.dto.request.RegisterRequest;
 import com.eee.filmplatform.services.identity.dto.request.UpdateUserRequest;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.enums.AuditAction;
+import com.eee.filmplatform.services.identity.enums.AuditStatus;
 import com.eee.filmplatform.services.identity.enums.UserStatus;
 import com.eee.filmplatform.services.identity.mapper.UserMapper;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
 import com.eee.filmplatform.services.identity.security.CustomUserDetails;
+import com.eee.filmplatform.services.identity.service.AuditService;
 import com.eee.filmplatform.services.identity.service.EmailVerificationService;
 import com.eee.filmplatform.services.identity.service.RefreshTokenService;
 import com.eee.filmplatform.services.identity.service.UserRoleService;
@@ -45,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
     private final SecurityProperties securityProperties;
 
+    private final AuditService auditService;
+
     @Override
     @Transactional
     public UserResponse register(RegisterRequest request) {
@@ -58,6 +63,13 @@ public class UserServiceImpl implements UserService {
         userRoleService.assignRole(savedUser);
 
         emailVerificationService.create(savedUser);
+
+        auditService.log(
+                AuditAction.REGISTER,
+                AuditStatus.SUCCESS,
+                user,
+                user.getUsername(),
+                "User registered successfully.");
 
         return userMapper.toResponse(savedUser);
     }
@@ -111,6 +123,13 @@ public class UserServiceImpl implements UserService {
                 passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
         refreshTokenService.revokeAll(user);
+
+        auditService.log(
+                AuditAction.PASSWORD_CHANGED,
+                AuditStatus.SUCCESS,
+                user,
+                user.getUsername(),
+                "Password changed successfully.");
     }
 
     @Override
@@ -132,6 +151,13 @@ public class UserServiceImpl implements UserService {
         user.setAccountLockedUntil(null);
 
         userRepository.save(user);
+
+        auditService.log(
+                AuditAction.ACCOUNT_UNLOCKED,
+                AuditStatus.SUCCESS,
+                user,
+                user.getUsername(),
+                "Account unlocked automatically.");
     }
 
     @Override
@@ -145,7 +171,7 @@ public class UserServiceImpl implements UserService {
 
                     user.setFailedLoginAttempts(attempts);
 
-                    if (attempts >= securityProperties.getMaxFailedAttempts()) {
+                    if (attempts >= securityProperties.getMaxFailedAttempts() && user.isAccountNonLocked()) {
 
                         user.setAccountNonLocked(false);
 
@@ -153,9 +179,17 @@ public class UserServiceImpl implements UserService {
                                 Instant.now().plus(
                                         securityProperties.getLockDurationMinutes(),
                                         ChronoUnit.MINUTES));
+
+                        auditService.log(
+                                AuditAction.ACCOUNT_LOCKED,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Account locked after maximum failed login attempts.");
                     }
 
                     userRepository.save(user);
+
                 });
     }
 

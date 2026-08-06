@@ -22,10 +22,13 @@ import com.eee.filmplatform.services.identity.dto.response.RefreshTokenResponse;
 import com.eee.filmplatform.services.identity.dto.response.UserResponse;
 import com.eee.filmplatform.services.identity.entity.RefreshToken;
 import com.eee.filmplatform.services.identity.entity.User;
+import com.eee.filmplatform.services.identity.enums.AuditAction;
+import com.eee.filmplatform.services.identity.enums.AuditStatus;
 import com.eee.filmplatform.services.identity.repository.UserRepository;
 import com.eee.filmplatform.services.identity.security.CustomUserDetails;
 import com.eee.filmplatform.services.identity.security.jwt.JwtProperties;
 import com.eee.filmplatform.services.identity.security.jwt.JwtService;
+import com.eee.filmplatform.services.identity.service.AuditService;
 import com.eee.filmplatform.services.identity.service.AuthService;
 import com.eee.filmplatform.services.identity.service.PasswordResetService;
 import com.eee.filmplatform.services.identity.service.RefreshTokenService;
@@ -50,6 +53,8 @@ public class AuthServiceImpl implements AuthService {
         private final PasswordResetService passwordResetService;
 
         private final UserRepository userRepository;
+
+        private final AuditService auditService;
 
         Authentication authentication = null;
 
@@ -92,6 +97,18 @@ public class AuthServiceImpl implements AuthService {
 
                         userService.loginFailed(request.username());
 
+                        User failedUser = userRepository.findByUsernameOrEmail(
+                                        request.username(),
+                                        request.username())
+                                        .orElse(null);
+
+                        auditService.log(
+                                        AuditAction.LOGIN_FAILED,
+                                        AuditStatus.FAILURE,
+                                        failedUser,
+                                        request.username(),
+                                        "Invalid username or password.");
+
                         throw new InvalidCredentialsException(
                                         "Invalid username or password");
                 }
@@ -113,6 +130,12 @@ public class AuthServiceImpl implements AuthService {
                                 user.getUser(),
                                 refreshToken);
 
+                auditService.log(AuditAction.LOGIN,
+                                AuditStatus.SUCCESS,
+                                user.getUser(),
+                                user.getUsername(),
+                                "User logged in successfully.");
+
                 return new LoginResponse(
                                 accessToken,
                                 refreshToken,
@@ -128,11 +151,28 @@ public class AuthServiceImpl implements AuthService {
                 RefreshToken refreshToken = refreshTokenService.verify(request.refreshToken());
 
                 if (refreshToken.isRevoked()) {
+                        auditService.log(
+                                        AuditAction.TOKEN_REFRESH_FAILED,
+                                        AuditStatus.FAILURE,
+                                        refreshToken.getUser(),
+                                        refreshToken.getUser().getUsername() != null
+                                                        ? refreshToken.getUser().getUsername()
+                                                        : "Unknown User",
+                                        "Refresh token has been revoked.");
                         throw new IllegalArgumentException(
                                         "Refresh token has been revoked");
                 }
 
                 if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
+
+                        auditService.log(
+                                        AuditAction.TOKEN_REFRESH_FAILED,
+                                        AuditStatus.FAILURE,
+                                        refreshToken.getUser(),
+                                        refreshToken.getUser().getUsername() != null
+                                                        ? refreshToken.getUser().getUsername()
+                                                        : "Unknown User",
+                                        "Refresh token has expired.");
                         throw new IllegalArgumentException(
                                         "Refresh token has expired");
                 }
@@ -151,6 +191,13 @@ public class AuthServiceImpl implements AuthService {
 
                 // Persist new refresh token
                 refreshTokenService.create(user, newRefreshToken);
+
+                auditService.log(
+                                AuditAction.TOKEN_REFRESH,
+                                AuditStatus.SUCCESS,
+                                user,
+                                user.getUsername(),
+                                "Access token refreshed successfully.");
 
                 return new RefreshTokenResponse(
                                 accessToken,
