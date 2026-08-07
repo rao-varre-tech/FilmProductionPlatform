@@ -1,5 +1,6 @@
-/*
- * Public API Surface of core
- */
-
 export * from './lib/core';
+
+export * from './lib/config';
+export * from './lib/constants';
+
+

@@ -4,12 +4,24 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "auth": ["./dist/auth"],
-      "core": ["./dist/core"],
-      "models": ["./dist/models"],
-      "shared": ["./dist/shared"],
-      "ui": ["./dist/ui"],
-      "utils": ["./dist/utils"]
+      "@film-production/core": [
+        "./projects/core/src/public-api.ts"
+      ],
+      "@film-production/auth": [
+        "./projects/auth/src/public-api.ts"
+      ],
+      "@film-production/shared": [
+        "./projects/shared/src/public-api.ts"
+      ],
+      "@film-production/ui": [
+        "./projects/ui/src/public-api.ts"
+      ],
+      "@film-production/models": [
+        "./projects/models/src/public-api.ts"
+      ],
+      "@film-production/utils": [
+        "./projects/utils/src/public-api.ts"
+      ]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
