@@ -1,11 +1,5 @@
 export interface ApiConfig {
     gateway: string;
+    version: string;
     timeout: number;
-
-    endpoints: {
-        auth: string;
-        users: string;
-        roles: string;
-        permissions: string;
-    };
 }
