@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 
 import { provideRouter } from '@angular/router';
+import { provideAuth } from '@film-production/auth';
 import { API_CONFIG, provideCore } from '@film-production/core';
 import { environment } from '../environments/environment';
 
@@ -11,6 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideCore(),
+    provideAuth(),
     {
       provide: API_CONFIG,
       useValue: {
