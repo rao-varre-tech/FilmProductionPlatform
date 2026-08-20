@@ -1,0 +1,52 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <h1 id="login-title">Sign in</h1>
+    <p>Use your username or email and password to access your account.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+      <div class="form-field">
+        <label for="username">Username or email</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+          required
+          [attr.aria-invalid]="loginForm.controls.username.invalid && loginForm.controls.username.touched"
+          aria-describedby="username-error"
+        />
+        @if (loginForm.controls.username.invalid && loginForm.controls.username.touched) {
+          <p id="username-error" class="field-error">Username or email is required.</p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          required
+          [attr.aria-invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched"
+          aria-describedby="password-error"
+        />
+        @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
+          <p id="password-error" class="field-error">Password is required.</p>
+        }
+      </div>
+
+      @if (errorMessage(); as error) {
+        <p class="form-error" role="alert">{{ error }}</p>
+      }
+
+      <button type="submit" [disabled]="isSubmitting()" [attr.aria-busy]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    @if (user(); as authenticatedUser) {
+      <p class="session-status" role="status">Signed in as {{ authenticatedUser.username }}.</p>
+    }
+  </section>
+</main>
