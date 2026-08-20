@@ -5,7 +5,7 @@
   "compilerOptions": {
     "paths": {
       "@film-production/core": [
-        "./projects/core/src/public-api.ts"
+        "./dist/core"
       ],
       "@film-production/auth": [
         "./projects/auth/src/public-api.ts"
